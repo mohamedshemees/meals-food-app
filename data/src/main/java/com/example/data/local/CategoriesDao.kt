@@ -13,8 +13,11 @@ interface CategoriesDao {
     @Query("SELECT * FROM Categories")
      fun getCategoriesFromLocal(): Flow<List<Category>>
 
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun InsertCategories(category: List<Category>)
+    suspend fun insertCategories(category: List<Category>)
+
+    @Query("SELECT COUNT(*) FROM categories")
+    suspend fun getCategoryCount(): Int
+
 
 }

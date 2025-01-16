@@ -10,14 +10,12 @@
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout"
+        android:id="@+id/meallayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="6dp"
-        tools:layout_editor_absoluteY="8dp">
+        android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/category_iv"
+            android:id="@+id/meal_iv"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_margin="8dp"
@@ -26,39 +24,26 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/category_name_tv"
+            android:id="@+id/meal_name_tv"
             style="@style/TextAppearance.Material3.ActionBar.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            app:layout_constraintStart_toEndOf="@id/category_iv"
+            app:layout_constraintStart_toEndOf="@id/meal_iv"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="name" />
 
-
-        <TextView
-            android:id="@+id/category_des_tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:maxLines="3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.031"
-            app:layout_constraintStart_toEndOf="@id/category_iv"
-            app:layout_constraintTop_toBottomOf="@id/category_name_tv"
-            tools:text="desc" />
-
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/browse_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Browse Meals!"
             app:icon="@drawable/chevron_right_"
-            android:padding="10dp"
             app:iconGravity="end"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
+            android:text=" Ingerdiants and more!"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/meal_iv"
+            app:layout_constraintTop_toBottomOf="@+id/meal_name_tv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

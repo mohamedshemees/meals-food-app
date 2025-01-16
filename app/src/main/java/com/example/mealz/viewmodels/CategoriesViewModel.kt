@@ -1,10 +1,12 @@
-package com.example.mealz
+package com.example.mealz.viewmodels
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.Category
 import com.example.domain.usecase.GetCategories
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -14,18 +16,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CategoriesViewModel @Inject constructor(
-    private val getmealsUseCase: GetCategories,
+    private val getCategories: GetCategories,
+    @ApplicationContext private val context: Context
 
     ) : ViewModel() {
 
-    val categories: StateFlow<List<Category>> = getmealsUseCase.getCategories()
+    val categories: StateFlow<List<Category>> = getCategories.getCategories()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(2000), emptyList())
+
     init {
-        refreshCategoriesOnStart()
+        refreshCategoriesOnStart(context)
     }
-    private fun refreshCategoriesOnStart() {
+    private fun refreshCategoriesOnStart(context:Context) {
         viewModelScope.launch {
-            getmealsUseCase.refreshCategories() // Suspend function called here
+            getCategories.refreshData(context) // Suspend function called here
         }
     }
 }

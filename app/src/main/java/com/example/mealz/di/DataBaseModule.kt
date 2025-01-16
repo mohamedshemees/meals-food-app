@@ -3,7 +3,9 @@ package com.example.mealz.di
 import android.content.Context
 import androidx.room.Room
 import com.example.data.local.CategoriesDao
-import com.example.data.local.CategoriesDatabase
+import com.example.data.local.MealDetailsDao
+import com.example.data.local.MealsDao
+import com.example.data.local.MealsDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,17 +20,28 @@ object DataBaseModule {
 
     @Singleton
     @Provides
-    fun provideDatabase(@ApplicationContext context: Context): CategoriesDatabase {
+    fun provideMealsDatabase(@ApplicationContext context: Context): MealsDatabase {
         return Room.databaseBuilder(
             context,
-            CategoriesDatabase::class.java,
-            "Category_database"
+            MealsDatabase::class.java,
+            "Meals_database"
         ).build()
     }
     @Singleton
     @Provides
-    fun provideDao(database:CategoriesDatabase):CategoriesDao{
+    fun provideMealsDao(database:MealsDatabase):MealsDao{
+        return database.mealsDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideCategoriesDao(database:MealsDatabase):CategoriesDao{
         return database.categoriesDao()
+    }
+    @Singleton
+    @Provides
+    fun provideMealDetailsDao(database:MealsDatabase): MealDetailsDao {
+        return database.mealdetailsDao()
     }
 
 }

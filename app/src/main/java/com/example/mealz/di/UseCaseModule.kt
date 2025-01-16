@@ -1,7 +1,8 @@
 package com.example.mealz.di
 
-import com.example.domain.repo.CategoriesRepo
+import com.example.domain.repo.MealsRepo
 import com.example.domain.usecase.GetCategories
+import com.example.domain.usecase.GetMeals
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,8 +13,13 @@ import dagger.hilt.components.SingletonComponent
 object UseCaseModule {
 
     @Provides
-    fun provideUseCase(
-        categoriesRepo: CategoriesRepo): GetCategories{
+    fun provideGetCategoriesUseCase(
+        categoriesRepo: MealsRepo): GetCategories{
         return GetCategories(categoriesRepo)
+    }
+    @Provides
+    fun provideGetMealsUseCase(
+        mealsRepo: MealsRepo): GetMeals{
+        return GetMeals(mealsRepo)
     }
 }
