@@ -14,12 +14,15 @@ object UseCaseModule {
 
     @Provides
     fun provideGetCategoriesUseCase(
-        categoriesRepo: MealsRepo): GetCategories{
+        categoriesRepo: MealsRepo
+    ): GetCategories {
         return GetCategories(categoriesRepo)
     }
+
     @Provides
     fun provideGetMealsUseCase(
-        mealsRepo: MealsRepo): GetMeals{
+        mealsRepo: MealsRepo
+    ): GetMeals {
         return GetMeals(mealsRepo)
     }
 }

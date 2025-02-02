@@ -1,7 +1,9 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.Mealz" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <style name="Base.Theme.Mealz" parent="Theme.Material3.Dark.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/base_color</item>
     </style>
+
+    <style name="Theme.Mealz" parent="Base.Theme.Mealz" />
 </resources>

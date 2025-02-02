@@ -8,36 +8,10 @@
     tools:context=".MealsActivity">
 
 
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/mealsappbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
-        >
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/mealstoolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
-            app:titleTextColor="@android:color/white"
-            app:navigationIcon="@drawable/arrow_back_20px"
-            >
-
-
-        </androidx.appcompat.widget.Toolbar>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/meals_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

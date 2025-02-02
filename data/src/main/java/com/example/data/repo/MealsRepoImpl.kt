@@ -1,15 +1,14 @@
 package com.example.data.repo
 
 import android.content.Context
-
-import android.util.Log
 import com.example.data.local.CategoriesDao
 import com.example.data.local.MealDetailsDao
 import com.example.data.local.MealsDao
-import com.example.data.remote.ApiService
 import com.example.data.local.PrefsHelper
+import com.example.data.remote.ApiService
 import com.example.domain.entity.Category
 import com.example.domain.entity.Meal
+import com.example.domain.entity.MealDetails
 import com.example.domain.repo.MealsRepo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
@@ -68,7 +67,8 @@ class MealsRepoImpl @Inject constructor(
                             idMeal = meal.idMeal,
                             strMeal = meal.strMeal,
                             strMealThumb = meal.strMealThumb,
-                            categoryId = category.strCategory
+                            categoryId = category.strCategory,
+                            isFavorite = false
                         )
                     }
                     mealsDao.insertMeals(mealsWithCategory)
@@ -94,7 +94,6 @@ class MealsRepoImpl @Inject constructor(
                 mealDetailsDao.insertMealDetails(mealDetails.meals)
 
             } catch (e: Exception) {
-                Log.d("wow", "inside refrecategories $e")
             }
         }
         prefsHelper.isInitMealsDetailsComplete = true
@@ -103,7 +102,6 @@ class MealsRepoImpl @Inject constructor(
     override suspend fun refreshData(context: Context) {
         prefsHelper.DataComplete =
             (prefsHelper.isInitCategorysComplete && prefsHelper.isInitMealsComplete && prefsHelper.isInitMealsDetailsComplete)
-        Log.d("wow", "inside refreshdata")
         if (prefsHelper.DataComplete) {
             return
         } else {
@@ -111,6 +109,18 @@ class MealsRepoImpl @Inject constructor(
             refreshMeals()
         }
         prefsHelper.DataComplete = true
+    }
+
+    override suspend fun getIngredients(meal: String): MealDetails {
+        return mealDetailsDao.getMealDetailsById(meal)
+    }
+
+    override fun getFavorites(): Flow<List<Meal>> {
+        return mealsDao.getFavoriteMeals()
+    }
+
+    override suspend fun toggleFavoriteStatus(mealId: String, isFavorite: Boolean) {
+        mealsDao.updateFavoriteStatus(mealId, isFavorite)
     }
 
     override fun getCategories(): Flow<List<Category>> {
@@ -121,6 +131,9 @@ class MealsRepoImpl @Inject constructor(
         return mealsDao.getMealsFromLocal(category)
     }
 
+    override suspend fun getFavState(mealId: String): Boolean {
+        return mealsDao.getFavState(mealId)
+    }
 }
 
 

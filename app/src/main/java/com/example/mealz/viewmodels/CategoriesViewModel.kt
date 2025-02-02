@@ -19,7 +19,7 @@ class CategoriesViewModel @Inject constructor(
     private val getCategories: GetCategories,
     @ApplicationContext private val context: Context
 
-    ) : ViewModel() {
+) : ViewModel() {
 
     val categories: StateFlow<List<Category>> = getCategories.getCategories()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(2000), emptyList())
@@ -27,9 +27,10 @@ class CategoriesViewModel @Inject constructor(
     init {
         refreshCategoriesOnStart(context)
     }
-    private fun refreshCategoriesOnStart(context:Context) {
+
+    private fun refreshCategoriesOnStart(context: Context) {
         viewModelScope.launch {
-            getCategories.refreshData(context) // Suspend function called here
+            getCategories.refreshData(context)
         }
     }
 }

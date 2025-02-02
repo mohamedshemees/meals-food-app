@@ -5,7 +5,8 @@ import android.content.SharedPreferences
 class PrefsHelper(private val sharedPrefs: SharedPreferences) {
     var isInitCategorysComplete: Boolean
         get() = sharedPrefs.getBoolean("is_initial_categories_fetch_complete", false)
-        set(value) = sharedPrefs.edit().putBoolean("is_initial_categories_fetch_complete", value).apply()
+        set(value) = sharedPrefs.edit().putBoolean("is_initial_categories_fetch_complete", value)
+            .apply()
 
     var isInitMealsComplete: Boolean
         get() = sharedPrefs.getBoolean("is_initial_meal_fetch_complete", false)
@@ -13,7 +14,8 @@ class PrefsHelper(private val sharedPrefs: SharedPreferences) {
 
     var isInitMealsDetailsComplete: Boolean
         get() = sharedPrefs.getBoolean("is_initial_meal_details_fetch_complete", false)
-        set(value) = sharedPrefs.edit().putBoolean("is_initial_meal_details_fetch_complete", value).apply()
+        set(value) = sharedPrefs.edit().putBoolean("is_initial_meal_details_fetch_complete", value)
+            .apply()
 
     var DataComplete: Boolean
         get() = sharedPrefs.getBoolean("is_initial_data_complete", false)

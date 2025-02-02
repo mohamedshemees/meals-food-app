@@ -27,20 +27,22 @@ object DataBaseModule {
             "Meals_database"
         ).build()
     }
+
     @Singleton
     @Provides
-    fun provideMealsDao(database:MealsDatabase):MealsDao{
+    fun provideMealsDao(database: MealsDatabase): MealsDao {
         return database.mealsDao()
     }
 
     @Singleton
     @Provides
-    fun provideCategoriesDao(database:MealsDatabase):CategoriesDao{
+    fun provideCategoriesDao(database: MealsDatabase): CategoriesDao {
         return database.categoriesDao()
     }
+
     @Singleton
     @Provides
-    fun provideMealDetailsDao(database:MealsDatabase): MealDetailsDao {
+    fun provideMealDetailsDao(database: MealsDatabase): MealDetailsDao {
         return database.mealdetailsDao()
     }
 

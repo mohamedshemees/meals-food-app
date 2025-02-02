@@ -6,8 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardElevation="5dp"
-    app:cardUseCompatPadding="true"
-    >
+    app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout"
@@ -30,7 +29,9 @@
             style="@style/TextAppearance.Material3.ActionBar.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="18dp"
             android:layout_margin="8dp"
+            android:textColor="@color/textcolor"
             app:layout_constraintStart_toEndOf="@id/category_iv"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="name" />
@@ -41,20 +42,27 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:maxLines="3"
+            android:clickable="true"
+            android:focusable="true"
+            android:ellipsize="end"
+            android:background="@drawable/gradiant_clickabletv"
+            android:textColor="@color/textcolor"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.031"
             app:layout_constraintStart_toEndOf="@id/category_iv"
             app:layout_constraintTop_toBottomOf="@id/category_name_tv"
-            tools:text="desc" />
+            tools:text="Description"
+            android:onClick="toggleTextExpansion" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/browse_btn"
+            android:id="@+id/BrowseMeals_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Browse Meals!"
-            app:icon="@drawable/chevron_right_"
+            android:textColor="@color/textcolor"
+            app:icon="@drawable/next1"
+            app:iconTint="@color/chevron"
             android:padding="10dp"
+
             app:iconGravity="end"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

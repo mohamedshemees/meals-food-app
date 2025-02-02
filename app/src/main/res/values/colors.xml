@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="textcolor">#FF000000</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="orange">#E17564</color>
+    <color name="chevron">#FF000000</color>
+    <color name="gray">#FEE6f0</color>">
+    <color name="base_color">#E17564</color>
+    <color name="gradiantcolor">#FFFFFFFF</color>
+    <color name="link_color">#0000FF</color>
+
 
 </resources>

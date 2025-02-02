@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+
+    android:background="@drawable/gradiant_bg"
+    android:layout_margin="5dp">
+
+    <TextView
+        android:id="@+id/ingredient_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Ingredient"
+        android:textColor="@color/textcolor"
+        android:gravity="start"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/ingredient_measure"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Measure"
+        android:textColor="@color/textcolor"
+        android:textStyle="bold"
+        android:gravity="end" />
+</LinearLayout>

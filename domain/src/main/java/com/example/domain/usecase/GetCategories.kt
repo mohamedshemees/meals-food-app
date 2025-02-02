@@ -12,7 +12,7 @@ class GetCategories(
         return categoriesRepo.getCategories()
     }
 
-    suspend fun refreshData(context: Context){
+    suspend fun refreshData(context: Context) {
         categoriesRepo.refreshData(context)
     }
 

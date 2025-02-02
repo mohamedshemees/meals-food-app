@@ -6,13 +6,13 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardElevation="5dp"
-    app:cardUseCompatPadding="true"
-    >
+    app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/meallayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
 
         <ImageView
             android:id="@+id/meal_iv"
@@ -26,25 +26,39 @@
         <TextView
             android:id="@+id/meal_name_tv"
             style="@style/TextAppearance.Material3.ActionBar.Title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:textColor="@color/textcolor"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/favorite_btn"
             app:layout_constraintStart_toEndOf="@id/meal_iv"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="name" />
 
+
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/ingredients_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:icon="@drawable/chevron_right_"
+            android:padding="1dp"
+            android:text="recipe"
+            android:textColor="@color/textcolor"
+            app:icon="@drawable/next1"
             app:iconGravity="end"
-
-            android:text=" Ingerdiants and more!"
+            app:iconTint="@color/chevron"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/meal_iv"
-            app:layout_constraintTop_toBottomOf="@+id/meal_name_tv" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <ImageButton
+            android:id="@+id/favorite_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/star"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
