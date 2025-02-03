@@ -2,6 +2,8 @@
 📱 Modern Android App with Retrofit, Room, and MVVM
 
 This Android application demonstrates a robust implementation of Clean Architecture using modern Android development practices
+![GIF_20250203_04](https://github.com/user-attachments/assets/f8e9b0dc-4217-4301-8e9a-cbe74e2bbb62)
+
 
 🌟 Features
 
@@ -29,3 +31,5 @@ This app adheres to the Clean Architecture pattern:
     App Layer: Handles UI and user interaction using MVVM with ViewModels and LiveData.
     Domain Layer: Contains use cases that encapsulate business logic.
     Data Layer: Manages data sources like APIs (via Retrofit) and local database (via Room).
+
+
