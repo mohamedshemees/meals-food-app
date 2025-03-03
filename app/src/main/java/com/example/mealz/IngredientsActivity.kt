@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.transition.TransitionManager
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -15,23 +14,23 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import com.example.mealz.adapters.IngredientAdapter
+import com.example.mealz.databinding.ActivityBaseBinding
 import com.example.mealz.databinding.ActivityDetailsBinding
 import com.example.mealz.viewmodels.IngredientsViewModel
-import com.example.mealz.viewmodels.MealsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
 class IngredientsActivity : BaseActivity() {
     private val ingredientsViewModel: IngredientsViewModel by viewModels()
-    lateinit var Ingredientsbinding: ActivityDetailsBinding
+    lateinit var ingredientsBinding: ActivityDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Ingredientsbinding = ActivityDetailsBinding.inflate(layoutInflater)
-        setChildBinding(Ingredientsbinding)
+        ingredientsBinding = ActivityDetailsBinding.inflate(layoutInflater)
+        showLoading()
+        setChildBinding(ingredientsBinding)
         val meal = intent.getStringExtra("mealstr")
         supportActionBar?.title = meal
         var mealid = ""
@@ -40,30 +39,29 @@ class IngredientsActivity : BaseActivity() {
             ingredientsViewModel.uiState.collect { uiState ->
                 when (uiState) {
                     is IngredientsViewModel.MealDetailsUiState.Loading -> {
-                        Ingredientsbinding.progressBar.visibility = View.VISIBLE
+                        showLoading()
                     }
-
                     is IngredientsViewModel.MealDetailsUiState.Success -> {
-                        Ingredientsbinding.progressBar.visibility = View.GONE
-                        Ingredientsbinding.mealNameTv.text = uiState.strmeal
-                        Ingredientsbinding.country.text = uiState.country
-                        Ingredientsbinding.instructions.text = uiState.instructions
-                        Ingredientsbinding.makingvideo.text = uiState.makingLink
-                        Ingredientsbinding.sourceLink.text = uiState.source
-                        Ingredientsbinding.ingredientMeasureRv.adapter =
-                            IngredientAdapter(uiState.ingredientMeasurePairs)
-                        Glide.with(this@IngredientsActivity).load(uiState.image)
-                            .into(Ingredientsbinding.mealIv)
+                        hideLoading()
+                        ingredientsBinding.mealNameTv.text = uiState.tags
+                        ingredientsBinding.country.text = uiState.country
+                        ingredientsBinding.instructions.text = uiState.instructions
+                        ingredientsBinding.makingvideo.text = uiState.makingLink
+                        ingredientsBinding.sourceLink.text = uiState.source
+                        ingredientsBinding.ingredientMeasureRv.adapter =
+                            IngredientAdapter(uiState.ingredientDetailsPairs)
+                        Glide.with(this@IngredientsActivity)
+                            .load(uiState.image)
+                            .into(ingredientsBinding.mealIv)
                         mealid = uiState.mealId
 
                     }
                 }
             }
-
         }
 
-        Ingredientsbinding.sourceLink.setOnClickListener {
-            val sourceurl: String = Ingredientsbinding.sourceLink.text.toString()
+        ingredientsBinding.sourceLink.setOnClickListener {
+            val sourceurl: String = ingredientsBinding.sourceLink.text.toString()
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(sourceurl))
 
             val chooser = Intent.createChooser(intent, "Open with")
@@ -74,18 +72,18 @@ class IngredientsActivity : BaseActivity() {
             }
         }
         var isExpanded = false
-        Ingredientsbinding.instructions.setOnClickListener {
-            TransitionManager.beginDelayedTransition(Ingredientsbinding.root as ViewGroup)
+        ingredientsBinding.instructions.setOnClickListener {
+            TransitionManager.beginDelayedTransition(ingredientsBinding.root as ViewGroup)
             isExpanded = !isExpanded
             if (isExpanded) {
-                Ingredientsbinding.instructions.maxLines = Integer.MAX_VALUE
+                ingredientsBinding.instructions.maxLines = Integer.MAX_VALUE
             } else {
-                Ingredientsbinding.instructions.maxLines = 3
-                Ingredientsbinding.instructions.post {
-                    Ingredientsbinding.instructions.scrollTo(0, 0)
+                ingredientsBinding.instructions.maxLines = 3
+                ingredientsBinding.instructions.post {
+                    ingredientsBinding.instructions.scrollTo(0, 0)
                 }
             }
-            Ingredientsbinding.instructions.background =
+            ingredientsBinding.instructions.background =
                 if (isExpanded) null else baseContext.resources.getDrawable(R.drawable.gradiant_clickabletv)
 
         }
@@ -93,15 +91,15 @@ class IngredientsActivity : BaseActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 ingredientsViewModel.favState.collect { isFavorite ->
-                    Ingredientsbinding.favoriteBtn.setImageResource(
+                    ingredientsBinding.favoriteBtn.setImageResource(
                         if (isFavorite) R.drawable.starfilled else R.drawable.star
                     )
                 }
             }
         }
-        Ingredientsbinding.favoriteBtn.setOnClickListener {
+        ingredientsBinding.favoriteBtn.setOnClickListener {
             val newFavState = !ingredientsViewModel.favState.value
-            Ingredientsbinding.favoriteBtn.setImageResource(
+            ingredientsBinding.favoriteBtn.setImageResource(
                 if (newFavState) R.drawable.starfilled else R.drawable.star
             )
             lifecycleScope.launch {

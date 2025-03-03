@@ -1,5 +1,6 @@
 package com.example.mealz.di
 
+import android.content.Context
 import com.example.data.local.CategoriesDao
 import com.example.data.local.MealDetailsDao
 import com.example.data.local.MealsDao
@@ -10,21 +11,25 @@ import com.example.domain.repo.MealsRepo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 
 @Module
 @InstallIn(SingletonComponent::class)
 object RepoModule {
+
+
     @Provides
     fun provideRepo(
         apiService: ApiService,
         mealsDao: MealsDao,
         categoriesDao: CategoriesDao,
         mealDetailsDao: MealDetailsDao,
-        prefsHelper: PrefsHelper
+        prefsHelper: PrefsHelper,
+        @ApplicationContext context: Context // ✅ Inject context properly
     ): MealsRepo {
-        return MealsRepoImpl(apiService, mealsDao, categoriesDao, mealDetailsDao, prefsHelper)
+        return MealsRepoImpl(apiService, mealsDao, categoriesDao, mealDetailsDao, prefsHelper,context)
     }
 
 }

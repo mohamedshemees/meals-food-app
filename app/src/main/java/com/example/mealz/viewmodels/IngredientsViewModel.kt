@@ -1,5 +1,7 @@
 package com.example.mealz.viewmodels
 
+import android.graphics.Bitmap
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -38,25 +40,35 @@ class IngredientsViewModel @Inject constructor(
         updateMealDetails(mealDetails)
     }
 
-    private fun extractIngredientMeasurePairs(mealDetails: MealDetails): List<IngredientMeasurePair> {
-        val pairs = mutableListOf<IngredientMeasurePair>()
+    private suspend fun extractIngredientMeasurePairs(mealDetails: MealDetails): List<IngredientDetails> {
+        val pairs = mutableListOf<IngredientDetails>()
         for (i in 1..20) {
             val ingredient = mealDetails::class.members
-                .find { it.name == "strIngredient$i" }
+                .find { it.name == "strIngredient$i"
+                }
                 ?.call(mealDetails) as? String
 
             val measure = mealDetails::class.members
                 .find { it.name == "strMeasure$i" }
                 ?.call(mealDetails) as? String
 
-            if (!ingredient.isNullOrEmpty() && !measure.isNullOrEmpty()) {
-                pairs.add(IngredientMeasurePair(ingredient, measure))
+            if (!ingredient.isNullOrEmpty() &&
+                !measure.isNullOrEmpty()
+                ) {
+                pairs.add(IngredientDetails(ingredient, measure,getIngThumbnail(ingredient)))
             }
         }
         return pairs
     }
 
-    private fun updateMealDetails(mealDetails: MealDetails) {
+    private suspend fun getIngThumbnail(ingredient: String?): Bitmap? {
+        if (ingredient != null) {
+            return getmealsUseCase.getIngThumbnail(ingredient.replace(" ","-"+"-"+"small"))
+        }
+        return null
+    }
+
+    private suspend fun updateMealDetails(mealDetails: MealDetails) {
         _uiState.value = MealDetailsUiState.Success(
             strmeal = mealDetails.strMeal ?: "",
             country = mealDetails.strArea ?: "",
@@ -65,7 +77,7 @@ class IngredientsViewModel @Inject constructor(
             instructions = mealDetails.strInstructions ?: "",
             image = mealDetails.strMealThumb ?: "",
             tags = mealDetails.strTags ?: "",
-            ingredientMeasurePairs = extractIngredientMeasurePairs(mealDetails),
+            ingredientDetailsPairs = extractIngredientMeasurePairs(mealDetails),
             mealId=mealDetails.idMeal
 
         )
@@ -80,9 +92,10 @@ class IngredientsViewModel @Inject constructor(
         _favState.value = getmealsUseCase.getFavState(mealId)
     }
 
-    data class IngredientMeasurePair(
+    data class IngredientDetails(
         val ingredient: String,
-        val measure: String
+        val measure: String,
+        val thumbnail: Bitmap?
     )
 
     sealed class MealDetailsUiState {
@@ -95,7 +108,7 @@ class IngredientsViewModel @Inject constructor(
             val instructions: String,
             val image: String,
             val tags: String,
-            val ingredientMeasurePairs: List<IngredientMeasurePair>,
+            val ingredientDetailsPairs: List<IngredientDetails>,
             val mealId: String
         ) : MealDetailsUiState()
     }

@@ -48,7 +48,7 @@ class FavoriteActivity : BaseActivity() {
         val mealsAdapter = MealsAdapter { meal ->
             mealsViewModel.toggleFavoriteStatus(meal.idMeal, meal.isFavorite)
         }
-        mealsAdapter.submitList(meals)
+        mealsAdapter.setMeals(meals)
         rv.setLayoutManager(LinearLayoutManager(this))
         rv.adapter = mealsAdapter
     }

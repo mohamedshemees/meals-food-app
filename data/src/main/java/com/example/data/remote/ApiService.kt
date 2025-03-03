@@ -3,7 +3,9 @@ package com.example.data.remote
 import com.example.domain.entity.CategoryResponse
 import com.example.domain.entity.MealDetailsResponse
 import com.example.domain.entity.Meals
+import okhttp3.ResponseBody
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -15,5 +17,7 @@ interface ApiService {
 
     @GET("lookup.php")
     suspend fun getMealDetails(@Query("i") mealId: String): MealDetailsResponse
+    @GET("https://www.themealdb.com/images/ingredients/{ingredient}.png")
+    suspend fun getIngThumbnail(@Path("ingredient")ingredient: String?): ResponseBody
 
 }

@@ -1,6 +1,10 @@
 package com.example.data.repo
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Log
+import com.bumptech.glide.Glide
 import com.example.data.local.CategoriesDao
 import com.example.data.local.MealDetailsDao
 import com.example.data.local.MealsDao
@@ -10,8 +14,12 @@ import com.example.domain.entity.Category
 import com.example.domain.entity.Meal
 import com.example.domain.entity.MealDetails
 import com.example.domain.repo.MealsRepo
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Inject
 
 
@@ -21,13 +29,15 @@ class MealsRepoImpl @Inject constructor(
     private val categoriesDao: CategoriesDao,
     private val mealDetailsDao: MealDetailsDao,
     private val prefsHelper: PrefsHelper,
+    private val context: Context
 
-    ) : MealsRepo {
+) : MealsRepo {
 
 
     private lateinit var categories: List<Category>
 
     override suspend fun refreshCategories() {
+
 
         val lastCategoryId = 14
         prefsHelper.isInitCategorysComplete = categoriesDao.getCategoryCount() > lastCategoryId
@@ -66,7 +76,9 @@ class MealsRepoImpl @Inject constructor(
                         Meal(
                             idMeal = meal.idMeal,
                             strMeal = meal.strMeal,
-                            strMealThumb = meal.strMealThumb,
+                            strMealThumb = downloadAndSaveImage(
+                                context, meal.strMealThumb, "${meal.idMeal}.jpg"
+                            ) ?: "",
                             categoryId = category.strCategory,
                             isFavorite = false
                         )
@@ -105,6 +117,7 @@ class MealsRepoImpl @Inject constructor(
         if (prefsHelper.DataComplete) {
             return
         } else {
+
             refreshCategories()
             refreshMeals()
         }
@@ -134,6 +147,55 @@ class MealsRepoImpl @Inject constructor(
     override suspend fun getFavState(mealId: String): Boolean {
         return mealsDao.getFavState(mealId)
     }
+
+    override suspend fun getIngThumbnail(ingredient: String?): Bitmap? {
+        return try {
+
+            BitmapFactory.decodeStream(
+                apiService.getIngThumbnail(ingredient).byteStream()
+            )
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+
+    override suspend fun downloadAndSaveImage(
+        context: Context,
+        imageUrl: String,
+        fileName: String
+    ): String? {
+        return withContext(Dispatchers.IO) {
+            try {
+                val file = File(context.filesDir, fileName)
+                if (file.exists()) {
+                    file.name
+
+                    return@withContext file.name
+                }
+                val bitmap = withContext(Dispatchers.IO) {
+                    Glide.with(context)
+                        .asBitmap()
+                        .load(imageUrl)
+                        .submit()
+                        .get()
+                }
+
+
+                FileOutputStream(file).use { out ->
+                    val success = bitmap.compress(
+                        Bitmap.CompressFormat.JPEG,
+                        90, out
+                    )
+                    if (!success) throw Exception("Image compression failed!")
+                }
+
+
+                file.name
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+        }
+    }
 }
-
-

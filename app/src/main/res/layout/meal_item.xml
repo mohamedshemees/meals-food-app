@@ -30,35 +30,35 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:textColor="@color/textcolor"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_head"
             app:layout_constraintEnd_toStartOf="@+id/favorite_btn"
             app:layout_constraintStart_toEndOf="@id/meal_iv"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="name" />
 
 
-        <com.google.android.material.button.MaterialButton
+        <ImageButton
             android:id="@+id/ingredients_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="1dp"
-            android:text="recipe"
-            android:textColor="@color/textcolor"
-            app:icon="@drawable/next1"
-            app:iconGravity="end"
-            app:iconTint="@color/chevron"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+
+            android:layout_marginHorizontal="8dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/arrow_right"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/meal_name_tv"
+            app:tint="@color/black" />
+
 
         <ImageButton
             android:id="@+id/favorite_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
             android:background="@android:color/transparent"
             android:src="@drawable/star"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_margin="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

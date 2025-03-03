@@ -2,6 +2,7 @@ package com.example.mealz
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
@@ -51,6 +52,19 @@ open class BaseActivity : AppCompatActivity() {
     protected fun setChildBinding(childBinding: ViewBinding) {
         val contentArea = binding.root.findViewById<ViewGroup>(R.id.activity_content)
         contentArea.addView(childBinding.root)
+    }
+
+
+    fun showLoading() {
+        binding.progressBar.visibility = View.VISIBLE
+
+        binding.activityContent.visibility = View.GONE // Hide all other views
+    }
+
+    fun hideLoading() {
+        binding.progressBar.visibility = View.GONE
+
+        binding.activityContent.visibility = View.VISIBLE // Show other views again
     }
 
     override fun onDestroy() {

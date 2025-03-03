@@ -5,7 +5,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="chevron">#FF000000</color>
     <color name="gray">#FEE6f0</color>">
-    <color name="base_color">#E17564</color>
+    <color name="primary_color">#E17564</color>
     <color name="gradiantcolor">#FFFFFFFF</color>
     <color name="link_color">#0000FF</color>
 

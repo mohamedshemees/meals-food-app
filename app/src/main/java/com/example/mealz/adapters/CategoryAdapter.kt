@@ -1,65 +1,75 @@
 package com.example.mealz.adapters
 
-import android.content.Context
 import android.content.Intent
 import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.domain.entity.Category
 import com.example.mealz.MealsActivity
 import com.example.mealz.R
-import com.example.mealz.databinding.CatgoryItemBinding
+import com.example.mealz.databinding.CategoryItemBinding
 
-class CategoryAdapter() : ListAdapter<Category, CategoryAdapter.ViewHolder>(
-    CategoryDiffCallback()
-) {
-    lateinit var context: Context
+class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
+
+    private var categories: List<Category> = listOf()
+
+    fun setCategories(newCategories: List<Category>) {
+        categories = newCategories
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemBinding =
-            CatgoryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            CategoryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(itemBinding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val meal = getItem(position)
-        holder.bind(getItem(position), holder.itemView.context)
+        val meal = categories[position]
+        holder.bind(meal)
 
-        context = holder.itemView.context
         holder.itemBinding.BrowseMealsBtn.setOnClickListener {
-            var mealsActivity = Intent(context, MealsActivity::class.java)
-            mealsActivity.putExtra("category", meal.strCategory)
+            val context = holder.itemView.context
+            val mealsActivity = Intent(context, MealsActivity::class.java).apply {
+                putExtra("category", meal.strCategory)
+            }
             context.startActivity(mealsActivity)
         }
     }
+
+    override fun getItemCount(): Int = categories.size
+
     fun resetAllItems(recyclerView: RecyclerView) {
         for (i in 0 until itemCount) {
-            val viewHolder = recyclerView.findViewHolderForAdapterPosition(i) as? ViewHolder
-            viewHolder?.reset()
+            (recyclerView.findViewHolderForAdapterPosition(i) as? ViewHolder)?.reset()
         }
     }
 
-    class ViewHolder(
-        val itemBinding: CatgoryItemBinding
-    ) : RecyclerView.ViewHolder(itemBinding.root) {
+    class ViewHolder( val itemBinding: CategoryItemBinding) :
+        RecyclerView.ViewHolder(itemBinding.root) {
         private var isExpanded = false
-        fun bind(category: Category, context: Context) {
-            itemBinding.categoryNameTv.text = category.strCategory
-            itemBinding.categoryDesTv.text = category.strCategoryDescription
-            Glide.with(itemBinding.root.context).load(category.strCategoryThumb)
-                .into(itemBinding.categoryIv)
-            itemBinding.categoryDesTv.maxLines = if (isExpanded) Integer.MAX_VALUE else 3
-            itemBinding.categoryDesTv.setOnClickListener {
-                TransitionManager.beginDelayedTransition(itemBinding.root as ViewGroup) // Animate transition
-                isExpanded = !isExpanded
 
-                itemBinding.categoryDesTv.maxLines = if (isExpanded) Integer.MAX_VALUE else 3
+        fun bind(category: Category) {
+            val context = itemBinding.root.context
+
+            itemBinding.categoryTv.text = category.strCategory
+            itemBinding.categoryDesTv.text = category.strCategoryDescription
+
+            Glide.with(context)
+                .load(category.strCategoryThumb)
+                .into(itemBinding.categoryIv)
+
+            itemBinding.categoryDesTv.maxLines = if (isExpanded) Int.MAX_VALUE else 3
+
+            itemBinding.categoryDesTv.setOnClickListener {
+                TransitionManager.beginDelayedTransition(itemBinding.root as ViewGroup)
+                isExpanded = !isExpanded
+                itemBinding.categoryDesTv.maxLines = if (isExpanded) Int.MAX_VALUE else 3
                 itemBinding.categoryDesTv.background =
-                    if (isExpanded) null else context.resources.getDrawable(R.drawable.gradiant_clickabletv)
+                    if (isExpanded) null else ContextCompat.getDrawable(context, R.drawable.gradiant_clickabletv)
             }
         }
 
@@ -67,24 +77,7 @@ class CategoryAdapter() : ListAdapter<Category, CategoryAdapter.ViewHolder>(
             isExpanded = false
             itemBinding.categoryDesTv.maxLines = 3
             itemBinding.categoryDesTv.background =
-                itemBinding.root.context.resources.getDrawable(R.drawable.gradiant_clickabletv)
-        }
-    }
-
-
-    class CategoryDiffCallback : DiffUtil.ItemCallback<Category>() {
-        override fun areItemsTheSame(
-            oldItem: Category,
-            newItem: Category
-        ): Boolean {
-            return oldItem.idCategory == newItem.idCategory
-        }
-
-        override fun areContentsTheSame(
-            oldItem: Category,
-            newItem: Category
-        ): Boolean {
-            return oldItem == newItem
+                ContextCompat.getDrawable(itemBinding.root.context, R.drawable.gradiant_clickabletv)
         }
     }
 }
