@@ -29,7 +29,14 @@ object RepoModule {
         prefsHelper: PrefsHelper,
         @ApplicationContext context: Context // ✅ Inject context properly
     ): MealsRepo {
-        return MealsRepoImpl(apiService, mealsDao, categoriesDao, mealDetailsDao, prefsHelper,context)
+        return MealsRepoImpl(
+            apiService,
+            mealsDao,
+            categoriesDao,
+            mealDetailsDao,
+            prefsHelper,
+            context
+        )
     }
 
 }

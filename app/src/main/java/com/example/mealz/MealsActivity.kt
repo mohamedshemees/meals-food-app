@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mealz.adapters.MealsAdapter
 import com.example.mealz.databinding.ActivityMealsBinding
 import com.example.mealz.viewmodels.MealsViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,6 +30,12 @@ class MealsActivity : BaseActivity() {
 
         mealsbinding = ActivityMealsBinding.inflate(layoutInflater)
         setChildBinding(mealsbinding)
+        findViewById<BottomNavigationView>(R.id.bottom_nav).menu.setGroupCheckable(0, true, false)
+        for (i in 0 until findViewById<BottomNavigationView>(R.id.bottom_nav).menu.size()) {
+            findViewById<BottomNavigationView>(R.id.bottom_nav).menu.getItem(i).isChecked =
+                false
+        }
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = intent.getStringExtra("category")
 
@@ -60,7 +67,9 @@ class MealsActivity : BaseActivity() {
 
     }
     private fun filterList(query: String) {
-        val fliterdlist=mealsViewModel.meals.value.filter { it.strMeal.contains(query, ignoreCase = true) }
+        val fliterdlist=mealsViewModel.meals.value.filter {
+            it.strMeal.contains(query, ignoreCase = true)
+        }
         mealsAdapter.setMeals(fliterdlist)
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

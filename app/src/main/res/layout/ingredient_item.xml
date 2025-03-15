@@ -2,12 +2,10 @@
 
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="20dp"
-    app:cardCornerRadius="100dp"
-
+    app:cardCornerRadius="40dp"
     >
 
     <LinearLayout

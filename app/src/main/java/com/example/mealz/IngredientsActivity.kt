@@ -1,11 +1,11 @@
 package com.example.mealz
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.transition.TransitionManager
 import android.view.MenuItem
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -14,9 +14,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import com.example.mealz.adapters.IngredientAdapter
-import com.example.mealz.databinding.ActivityBaseBinding
 import com.example.mealz.databinding.ActivityDetailsBinding
 import com.example.mealz.viewmodels.IngredientsViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -31,9 +31,17 @@ class IngredientsActivity : BaseActivity() {
         ingredientsBinding = ActivityDetailsBinding.inflate(layoutInflater)
         showLoading()
         setChildBinding(ingredientsBinding)
+        findViewById<BottomNavigationView>(R.id.bottom_nav).menu.setGroupCheckable(0, true, false)
+        for (i in 0 until findViewById<BottomNavigationView>(R.id.bottom_nav).menu.size()) {
+            findViewById<BottomNavigationView>(R.id.bottom_nav).menu.getItem(i).isChecked =
+                false
+        }
         val meal = intent.getStringExtra("mealstr")
         supportActionBar?.title = meal
+
         var mealid = ""
+        var sourceUrl = ""
+        var making = ""
 
         lifecycleScope.launchWhenStarted {
             ingredientsViewModel.uiState.collect { uiState ->
@@ -41,13 +49,14 @@ class IngredientsActivity : BaseActivity() {
                     is IngredientsViewModel.MealDetailsUiState.Loading -> {
                         showLoading()
                     }
+
                     is IngredientsViewModel.MealDetailsUiState.Success -> {
                         hideLoading()
                         ingredientsBinding.mealNameTv.text = uiState.tags
                         ingredientsBinding.country.text = uiState.country
                         ingredientsBinding.instructions.text = uiState.instructions
-                        ingredientsBinding.makingvideo.text = uiState.makingLink
-                        ingredientsBinding.sourceLink.text = uiState.source
+                        making = uiState.makingLink
+                        sourceUrl = uiState.source
                         ingredientsBinding.ingredientMeasureRv.adapter =
                             IngredientAdapter(uiState.ingredientDetailsPairs)
                         Glide.with(this@IngredientsActivity)
@@ -60,9 +69,21 @@ class IngredientsActivity : BaseActivity() {
             }
         }
 
-        ingredientsBinding.sourceLink.setOnClickListener {
-            val sourceurl: String = ingredientsBinding.sourceLink.text.toString()
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(sourceurl))
+        ingredientsBinding.tvMaking.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(making))
+            intent.setPackage("com.google.android.youtube") // Force open in YouTube app
+
+            try {
+                startActivity(intent)
+            } catch (e: ActivityNotFoundException) {
+                // If YouTube app is not installed, open in browser
+                val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(making))
+                startActivity(webIntent)
+            }
+        }
+        ingredientsBinding.tvArticle.setOnClickListener {
+            //val sourceurl: String = ingredientsBinding.tvArticle.text.toString()
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(sourceUrl))
 
             val chooser = Intent.createChooser(intent, "Open with")
             if (intent.resolveActivity(packageManager) != null) {
@@ -71,6 +92,7 @@ class IngredientsActivity : BaseActivity() {
                 Toast.makeText(this, "No app can handle this link", Toast.LENGTH_SHORT).show()
             }
         }
+
         var isExpanded = false
         ingredientsBinding.instructions.setOnClickListener {
             TransitionManager.beginDelayedTransition(ingredientsBinding.root as ViewGroup)

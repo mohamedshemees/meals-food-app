@@ -12,7 +12,7 @@ import com.example.mealz.MealsActivity
 import com.example.mealz.R
 import com.example.mealz.databinding.CategoryItemBinding
 
-class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
+class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CustomViewHolder>() {
 
     private var categories: List<Category> = listOf()
 
@@ -21,16 +21,17 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         val itemBinding =
             CategoryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(itemBinding)
+        return CustomViewHolder(itemBinding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+    override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         val meal = categories[position]
         holder.bind(meal)
-
         holder.itemBinding.BrowseMealsBtn.setOnClickListener {
             val context = holder.itemView.context
             val mealsActivity = Intent(context, MealsActivity::class.java).apply {
@@ -42,14 +43,17 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = categories.size
 
+
     fun resetAllItems(recyclerView: RecyclerView) {
         for (i in 0 until itemCount) {
-            (recyclerView.findViewHolderForAdapterPosition(i) as? ViewHolder)?.reset()
+            (recyclerView.findViewHolderForAdapterPosition(i) as? CustomViewHolder)?.reset()
         }
     }
 
-    class ViewHolder( val itemBinding: CategoryItemBinding) :
+    class CustomViewHolder(val itemBinding: CategoryItemBinding) :
+
         RecyclerView.ViewHolder(itemBinding.root) {
+
         private var isExpanded = false
 
         fun bind(category: Category) {
@@ -69,7 +73,10 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
                 isExpanded = !isExpanded
                 itemBinding.categoryDesTv.maxLines = if (isExpanded) Int.MAX_VALUE else 3
                 itemBinding.categoryDesTv.background =
-                    if (isExpanded) null else ContextCompat.getDrawable(context, R.drawable.gradiant_clickabletv)
+                    if (isExpanded) null else ContextCompat.getDrawable(
+                        context,
+                        R.drawable.gradiant_clickabletv
+                    )
             }
         }
 

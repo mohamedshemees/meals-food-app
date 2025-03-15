@@ -1,7 +1,6 @@
 package com.example.mealz.viewmodels
 
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -44,7 +43,8 @@ class IngredientsViewModel @Inject constructor(
         val pairs = mutableListOf<IngredientDetails>()
         for (i in 1..20) {
             val ingredient = mealDetails::class.members
-                .find { it.name == "strIngredient$i"
+                .find {
+                    it.name == "strIngredient$i"
                 }
                 ?.call(mealDetails) as? String
 
@@ -54,8 +54,8 @@ class IngredientsViewModel @Inject constructor(
 
             if (!ingredient.isNullOrEmpty() &&
                 !measure.isNullOrEmpty()
-                ) {
-                pairs.add(IngredientDetails(ingredient, measure,getIngThumbnail(ingredient)))
+            ) {
+                pairs.add(IngredientDetails(ingredient, measure, getIngThumbnail(ingredient)))
             }
         }
         return pairs
@@ -63,7 +63,7 @@ class IngredientsViewModel @Inject constructor(
 
     private suspend fun getIngThumbnail(ingredient: String?): Bitmap? {
         if (ingredient != null) {
-            return getmealsUseCase.getIngThumbnail(ingredient.replace(" ","-"+"-"+"small"))
+            return getmealsUseCase.getIngThumbnail(ingredient.replace(" ", "-" + "-" + "small"))
         }
         return null
     }
@@ -78,12 +78,12 @@ class IngredientsViewModel @Inject constructor(
             image = mealDetails.strMealThumb ?: "",
             tags = mealDetails.strTags ?: "",
             ingredientDetailsPairs = extractIngredientMeasurePairs(mealDetails),
-            mealId=mealDetails.idMeal
+            mealId = mealDetails.idMeal
 
         )
     }
 
-    suspend fun toggleFavoriteStatus(mealId: String,isFavorite: Boolean) {
+    suspend fun toggleFavoriteStatus(mealId: String, isFavorite: Boolean) {
         getmealsUseCase.toggleFavoriteStatus(mealId, isFavorite)
         updateFavState(mealId)
     }

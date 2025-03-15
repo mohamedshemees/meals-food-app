@@ -11,6 +11,8 @@
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+
         android:queryHint="Search meals..."
         app:layout_constraintTop_toTopOf="parent"
 

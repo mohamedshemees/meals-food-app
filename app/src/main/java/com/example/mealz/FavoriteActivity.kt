@@ -31,7 +31,7 @@ class FavoriteActivity : BaseActivity() {
         supportActionBar?.title = "Favorites"
 
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav)
-        bottomNav.selectedItemId = R.id.Favorites
+        bottomNav.selectedItemId = R.id.nav_favorites
 
 
         lifecycleScope.launchWhenStarted {

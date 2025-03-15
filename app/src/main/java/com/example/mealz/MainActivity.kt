@@ -3,15 +3,11 @@ package com.example.mealz
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.entity.Category
 import com.example.mealz.adapters.CategoryAdapter
-import com.example.mealz.databinding.ActivityBaseBinding
 import com.example.mealz.databinding.ActivityMainBinding
 import com.example.mealz.viewmodels.CategoriesViewModel
-import com.google.android.material.divider.MaterialDividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -31,7 +27,7 @@ class MainActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(false);
 
         val rv: RecyclerView = mainbinding.categoryRv
-         categoryAdapter = CategoryAdapter()
+        categoryAdapter = CategoryAdapter()
         rv.adapter = categoryAdapter
 
 
@@ -45,12 +41,13 @@ class MainActivity : BaseActivity() {
             override fun onQueryTextSubmit(query: String?): Boolean = false
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                filterList(newText ?: "",)
+                filterList(newText ?: "")
                 return true
             }
         })
     }
-    private fun filterList(query: String,) {
+
+    private fun filterList(query: String) {
         val filteredList = categoriesViewModel.categories.value
             .filter { it.strCategory.startsWith(query, ignoreCase = true) }
         categoryAdapter.setCategories(filteredList)

@@ -56,8 +56,12 @@ class MealsAdapter(private val onFavoriteClick: (Meal) -> Unit) :
             itemBinding.mealNameTv.text = meal.strMeal
 
             Glide.with(itemBinding.root.context)
-                .load(File(itemBinding.root.context.filesDir,
-                    meal.strMealThumb))
+                .load(
+                    File(
+                        itemBinding.root.context.filesDir,
+                        meal.strMealThumb
+                    )
+                )
                 .into(itemBinding.mealIv)
 
             Log.d("wow", "Loading image from: ${meal.strMealThumb}")

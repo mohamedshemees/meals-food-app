@@ -11,10 +11,10 @@ import com.example.domain.entity.MealDetails
     version = 1,
     exportSchema = false
 )
+
+
 abstract class MealsDatabase : RoomDatabase() {
     abstract fun mealsDao(): MealsDao
     abstract fun categoriesDao(): CategoriesDao
     abstract fun mealdetailsDao(): MealDetailsDao
-
-
 }

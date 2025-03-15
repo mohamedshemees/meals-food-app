@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardElevation="5dp"
-    app:cardUseCompatPadding="true">
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="20dp"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="6dp"
-        tools:layout_editor_absoluteY="8dp">
+        >
 
         <ImageView
             android:id="@+id/category_iv"
@@ -35,7 +37,6 @@
             app:layout_constraintStart_toEndOf="@id/category_iv"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="name" />
-
 
         <TextView
             android:id="@+id/category_des_tv"

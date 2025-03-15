@@ -35,7 +35,6 @@ class MealsViewModel @Inject constructor(
     }
 
 
-
 }
 
 

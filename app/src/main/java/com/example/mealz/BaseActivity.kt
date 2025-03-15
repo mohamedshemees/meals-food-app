@@ -23,6 +23,7 @@ open class BaseActivity : AppCompatActivity() {
 
 
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav)
+
         bottomNav.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
@@ -33,7 +34,7 @@ open class BaseActivity : AppCompatActivity() {
                     true
                 }
 
-                R.id.Favorites -> {
+                R.id.nav_favorites -> {
                     if (this !is FavoriteActivity) {
                         startActivity(Intent(this, FavoriteActivity::class.java))
                         finish()
@@ -57,7 +58,6 @@ open class BaseActivity : AppCompatActivity() {
 
     fun showLoading() {
         binding.progressBar.visibility = View.VISIBLE
-
         binding.activityContent.visibility = View.GONE // Hide all other views
     }
 

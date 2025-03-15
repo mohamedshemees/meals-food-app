@@ -46,8 +46,8 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_weight=".1"
                 app:layout_constraintBottom_toBottomOf="@+id/country"
                 app:layout_constraintEnd_toStartOf="@+id/country"
@@ -133,52 +133,55 @@
             app:layout_constraintStart_toStartOf="@+id/textView2"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-        <TextView
-            android:id="@+id/receiptsrc_tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:autoLink="web"
-            android:paddingHorizontal="15dp"
-            android:text="Source : "
-            android:textColor="@color/textcolor"
-            app:layout_constraintStart_toStartOf="@+id/instructions"
-            app:layout_constraintTop_toBottomOf="@+id/instructions" />
 
-
-        <TextView
-            android:id="@+id/source_link"
-            android:layout_width="wrap_content"
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autoLink="web"
-            android:paddingHorizontal="15dp"
-            android:text="source link is Unavailable"
-            app:layout_constraintStart_toStartOf="@+id/receiptsrc_tv"
-            app:layout_constraintTop_toBottomOf="@id/receiptsrc_tv" />
-
-        <TextView
-            android:id="@+id/making"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:autoLink="web"
-            android:paddingHorizontal="15dp"
-            android:text="@string/making_video"
-            android:textColor="@color/textcolor"
+            android:layout_margin="8dp"
+            android:elevation="20dp"
+            app:cardCornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/instructions"
-            app:layout_constraintTop_toBottomOf="@+id/source_link" />
+            app:layout_constraintTop_toBottomOf="@id/instructions"
 
-        <TextView
-            android:id="@+id/makingvideo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:autoLink="web"
-            android:paddingHorizontal="15dp"
-            android:paddingBottom="5dp"
-            android:text="@string/video_is_unavailable"
-            android:textColor="@color/textcolor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/making"
-            app:layout_constraintTop_toBottomOf="@+id/making" />
+            tools:elevation="10dp"
+            tools:layout_editor_absoluteX="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginVertical="10dp"
+
+                >
+
+                <TextView
+                    android:id="@+id/tvMaking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="▶️ Making Video"
+
+                    android:textColor="@color/primary_color"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tvArticle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:autoLink="web"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="📖 Read Full Article"
+                    android:textColor="@color/primary_color"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
